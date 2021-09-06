@@ -16,5 +16,5 @@ log/gl.log
 compile_commands.json
 .ccls-cache
 
-# dependencies (don't want to store all in repo)
+# dependencies (should be resolved by script)
 deps/
