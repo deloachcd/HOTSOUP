@@ -1,0 +1,35 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
+PROJECT(project)
+
+SET(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_BUILD_TYPE DEBUG)
+
+SET(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+SET(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+SET(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+CMAKE_POLICY(SET CMP0072 NEW)  # use GLVND over legacy OpenGL
+FIND_PACKAGE(OpenGL REQUIRED)
+
+INCLUDE_DIRECTORIES(deps)
+ADD_SUBDIRECTORY(deps/glfw)
+ADD_SUBDIRECTORY(deps/glm)
+INCLUDE_DIRECTORIES(deps/gl3w/include)
+ADD_LIBRARY(gl3w STATIC deps/gl3w/src/gl3w.c deps/gl3w/include/GL/gl3w.h)
+
+# Linking in my own mini-libraries
+ADD_LIBRARY(gldebug STATIC include/glDebug.cpp include/glDebug.hpp)
+ADD_LIBRARY(glhelpers STATIC include/glHelpers.cpp include/glHelpers.hpp)
+
+TARGET_LINK_LIBRARIES(glhelpers glfw)
+TARGET_LINK_LIBRARIES(glhelpers glm)
+
+SET(SOURCE_FILES main.cpp)
+
+ADD_EXECUTABLE(entrypoint ${SOURCE_FILES})
+TARGET_LINK_LIBRARIES(entrypoint glfw)
+TARGET_LINK_LIBRARIES(entrypoint glm)
+TARGET_LINK_LIBRARIES(entrypoint OpenGL::GL)
+TARGET_LINK_LIBRARIES(entrypoint gl3w)
+TARGET_LINK_LIBRARIES(entrypoint gldebug)
+TARGET_LINK_LIBRARIES(entrypoint glhelpers)

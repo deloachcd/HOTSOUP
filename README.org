@@ -1,0 +1,34 @@
+[[~/Projects/HOTSOUP/res/img/HOTSOUP.png]]
+
+* Custom tooling for 3D visuals
+  HOTSOUP is my attempt at a personal take on the kind of custom tooling that demoscene
+  creators build up to create their works. I make no claim to any of the techniques I employ
+  in developing this tooling necessarily being "best practices", nor any promise of backwards
+  compatibility from commit to commit - this is simply a virtual sketchbook for me to make
+  stuff I think is cool, and learn as I go along. I also am not taking into account the kind of
+  limitations that many demoscene creators impose on themselves at this point - all I care
+  about is that the output of this program is reasonably performant on the hardware I want to
+  target, which for right now is anything that can run OpenGL ES 3.x (specific version
+  undecided at the moment).
+
+** Relevant languages/libraries/standards
+   - C++
+   - GLFW3
+   - OpenAL
+   - OpenGL ES 3.x
+   - Probably more to come, honestly
+** Current goals
+   - [ ] Scripted dependency retrieval for Debian 11 Bullseye
+   - [ ] 100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally
+	 (including texture layers)
+   - [ ] DSL/command line interface for interactive programming
+   - [ ] Emacs integration
+** Targeted platforms
+   Right now, desktop Linux is the targeted platform for development, with the technologies
+   the whole thing is built on hopefully being cross platform enough for building and running
+   graphical programs created with it on Windows and macOS for cases where a free operating
+   system just isn't as viable as a locked down spyware platform that can run Photoshop and FL
+   Studio.
+   One possibility I'd like to experiment with is converting OpenGL ES programs into webGL
+   with [[https://emscripten.org/][emscripten]], possibly skirting around cross-platform friction completely by running
+   in a web browser, but this is down the line.
