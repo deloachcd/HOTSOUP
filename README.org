@@ -19,8 +19,7 @@
    - Probably more to come, honestly
 ** Current goals
    - [ ] Scripted dependency retrieval for Debian 11 Bullseye
-   - [ ] 100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally
-	 (including texture layers)
+   - [ ] 100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally (including texture layers)
    - [ ] DSL/command line interface for interactive programming
    - [ ] Emacs integration
 ** Targeted platforms
