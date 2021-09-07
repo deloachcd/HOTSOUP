@@ -12,7 +12,7 @@ $MAKE_SCRIPT
 
 # If we're already running TARGET, kill it
 RUNNING_TARGET=$(ps -ax |\
-                     grep entrypoint |\
+                     grep $TARGET |\
                      grep -v grep |\
                      head -n 1 |\
                      awk '{ print $1 }')

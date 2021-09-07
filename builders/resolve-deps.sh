@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+# TODO: Gracefully handle package retrieval failure
+
 # VERSION CONSTANTS
 # Set these to desired versions before running!
 
@@ -32,12 +34,15 @@ if [[ ! -d glfw && ! -e "glfw-$GLFW_RELEASE.zip" ]]; then
     wget https://github.com/glfw/glfw/releases/download/$GLFW_RELEASE/glfw-$GLFW_RELEASE.zip
 fi
 if [[ ! -d stb ]]; then
+	mkdir stb
+	cd stb
 	if [[ ! $STB_COMMIT_SHA == "latest" ]]; then
 		REMOTE_PATH=$STB_COMMIT_SHA
 	else
 		REMOTE_PATH=master
 	fi
 	wget https://raw.githubusercontent.com/nothings/stb/$REMOTE_PATH/stb_image.h
+	cd ..
 fi
 
 # Unpack zipped dependency archives

@@ -1,4 +1,4 @@
-[[./res/img/HOTSOUP.png]]
+[[./img/HOTSOUP.png]]
 
 * Custom tooling for 3D visuals
   HOTSOUP is my attempt at a personal take on the kind of custom tooling that demoscene

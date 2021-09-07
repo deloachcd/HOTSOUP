@@ -16,8 +16,8 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "include/glDebug.hpp"
-#include "include/glHelpers.hpp"
+#include "../include/glDebug.hpp"
+#include "../include/glHelpers.hpp"
 
 using glhelpers::displayObjects;
 using glhelpers::shaderSrc;
