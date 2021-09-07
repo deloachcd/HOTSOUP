@@ -24,4 +24,4 @@ ADD_LIBRARY(glhelpers STATIC include/glHelpers.cpp include/glHelpers.hpp)
 TARGET_LINK_LIBRARIES(glhelpers glfw)
 TARGET_LINK_LIBRARIES(glhelpers glm)
 
-ADD_SUBDIRECTORY(bench/src)
+ADD_SUBDIRECTORY(stove/burner)
