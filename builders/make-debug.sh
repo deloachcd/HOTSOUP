@@ -15,9 +15,9 @@ cd Debug
 make
 cd ..
 
-if test -e Debug/bench/src/entrypoint; then
+if test -e Debug/stove/burner/entrypoint; then
 	if test -e entrypoint; then
 		rm entrypoint
 	fi
-    ln -sf Debug/bench/src/entrypoint .
+    ln -sf Debug/stove/burner/entrypoint .
 fi

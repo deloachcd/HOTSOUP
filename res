@@ -1,1 +1,1 @@
-bench/src/res/
+stove/burner/res
