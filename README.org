@@ -8,8 +8,8 @@
   stuff I think is cool, and learn as I go along. I also am not taking into account the kind of
   limitations that many demoscene creators impose on themselves at this point - all I care
   about is that the output of this program is reasonably performant on the hardware I want to
-  target, which for right now is anything that can run OpenGL ES 3.x (specific version
-  undecided at the moment).
+  target, which for right now is anything that can run OpenGL 3.3 (should cover even integrated
+  GPUs).
 
 ** What it's built on
 *** Right now
@@ -19,16 +19,19 @@
 	- [[https://github.com/skaslev/gl3w][gl3w]] (OpenGL core profile loading)
 	- [[https://github.com/nothings/stb][stb]] (image encoding/decoding)
 *** As I flesh things out more
-	- [[https://github.com/floooh/sokol][sokol]] (cross-platform wrapper for OpenGL)
+	- [[https://github.com/floooh/sokol][sokol]] (cross-platform wrapper for OpenGL with more modern programming style)
 	- [[https://github.com/ocornut/imgui][imgui]] (nice GUI elements without having to code them myself)
-	- [[https://github.com/assimp/assimp][assimp]] (most fully featured model loader) or [[https://github.com/tinyobjloader/tinyobjloader][tinyobjloader]] (if I can get away it it, and want to save on compile time)
+	- [[https://github.com/assimp/assimp][assimp]] (most fully featured model loader) or [[https://github.com/tinyobjloader/tinyobjloader][tinyobjloader]] (if I can get away with it, and want to save on compile time)
 ** Current goals
-   - [X] Scripted dependency retrieval for Debian 11 Bullseye
-   - [ ] Convert existing OpenGL code into sokol_gfx code for simple cross-platform
-   - [ ] +100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally (including texture layers)+ just use [[https://github.com/patriciogonzalezvivo/glslViewer][glslViewer]] for this
-   - [ ] DSL/command line interface for interactive programming
-   - [ ] Emacs integration
-   - [ ] Load assets from Blender with ASSIMP
+*** Short term
+	- [X] Scripted dependency retrieval for Debian 11 Bullseye
+	- [ ] Convert existing OpenGL code into sokol_gfx code for simple cross-platform support
+	- [ ] Load assets from Blender with ASSIMP or tinyobjloader
+	- [ ] Chess scene from [[https://www.youtube.com/watch?v=7mWbnVPwX4U][Crystal Dream 2]] 
+	- [ ] +Emacs integration+ just split graphics programming functionality into its own emacs layer, and link it here
+*** Longer term
+	 - [ ] +100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally (including texture layers)+ just use [[https://github.com/patriciogonzalezvivo/glslViewer][glslViewer]] for this
+	 - [ ] DSL/command line interface for interactive programming
 ** Targeted platforms
    Right now, desktop Linux is the targeted platform for development, with the technologies
    the whole thing is built on hopefully being cross platform enough for building and running
