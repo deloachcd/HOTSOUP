@@ -11,15 +11,21 @@
   target, which for right now is anything that can run OpenGL ES 3.x (specific version
   undecided at the moment).
 
-** Relevant languages/libraries/standards
-   - C++
-   - GLFW3
-   - OpenAL
-   - OpenGL ES 3.x
-   - Probably more to come, honestly
+** What it's built on
+*** Right now
+	- C++14
+	- OpenGL 3.3
+	- [[https://github.com/glfw/glfw][glfw]] (simple OpenGL context management)
+	- [[https://github.com/skaslev/gl3w][gl3w]] (OpenGL core profile loading)
+	- [[https://github.com/nothings/stb][stb]] (image encoding/decoding)
+*** As I flesh things out more
+	- [[https://github.com/floooh/sokol][sokol]] (cross-platform wrapper for OpenGL)
+	- [[https://github.com/ocornut/imgui][imgui]] (nice GUI elements without having to code them myself)
+	- [[https://github.com/assimp/assimp][assimp]] (most fully featured model loader) or [[https://github.com/tinyobjloader/tinyobjloader][tinyobjloader]] (if I can get away it it, and want to save on compile time)
 ** Current goals
    - [X] Scripted dependency retrieval for Debian 11 Bullseye
-   - [ ] 100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally (including texture layers)
+   - [ ] Convert existing OpenGL code into sokol_gfx code for simple cross-platform
+   - [ ] +100% compatibility running GLSL shaders from [[https://www.shadertoy.com/][Shadertoy]], locally (including texture layers)+ just use [[https://github.com/patriciogonzalezvivo/glslViewer][glslViewer]] for this
    - [ ] DSL/command line interface for interactive programming
    - [ ] Emacs integration
    - [ ] Load assets from Blender with ASSIMP
@@ -29,6 +35,7 @@
    graphical programs created with it on Windows and macOS for cases where a free operating
    system just isn't as viable as a locked down spyware platform that can run Photoshop and FL
    Studio.
-   One possibility I'd like to experiment with is converting OpenGL ES programs into webGL
-   with [[https://emscripten.org/][emscripten]], possibly skirting around cross-platform friction completely by running
-   in a web browser, but this is down the line.
+   +One possibility I'd like to experiment with is converting OpenGL ES programs into webGL+
+   +with [[https://emscripten.org/][emscripten]], possibly skirting around cross-platform friction completely by running+
+   +in a web browser, but this is down the line.+ OpenGL code wrapped with sokol headers
+   compiles to WebAssembly, so this won't be an issue as soon as this is integrated.
