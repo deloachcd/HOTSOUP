@@ -1,6 +1,15 @@
-[submodule "gl3w"]
-	path = deps/gl3w
-	url = https://github.com/skaslev/gl3w
-[submodule "stove/SOUPCANS"]
+[submodule "SOUPCANS"]
 	path = stove/SOUPCANS
 	url = git@github.com:deloachcd/SOUPCANS.git
+[submodule "deps/stb"]
+	path = deps/stb
+	url = https://github.com/nothings/stb
+[submodule "deps/gl3w"]
+	path = deps/gl3w
+	url = https://github.com/skaslev/gl3w
+[submodule "deps/glfw"]
+	path = deps/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "deps/glm"]
+	path = deps/glm
+	url = https://github.com/g-truc/glm.git

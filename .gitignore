@@ -15,6 +15,3 @@ log/gl.log
 # LSP-related stuff
 compile_commands.json
 .ccls-cache
-
-# dependencies (should be resolved by script)
-deps/
