@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
 PROJECT(project)
 
-SET(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_CXX_STANDARD 14)
 SET(CMAKE_BUILD_TYPE DEBUG)
 
 SET(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -23,5 +23,13 @@ ADD_LIBRARY(glhelpers STATIC include/glHelpers.cpp include/glHelpers.hpp)
 
 TARGET_LINK_LIBRARIES(glhelpers glfw)
 TARGET_LINK_LIBRARIES(glhelpers glm)
+
+ADD_COMPILE_OPTIONS(
+  # Warning options
+  -Wall -Wextra -pedantic -Wshadow -Wparentheses -Wreturn-type -Wmissing-braces
+  -Wmultiple-inheritance -Wvirtual-inheritance -Wsign-conversion
+  # Language feature limiting
+  -fno-exceptions -fno-rtti -fno-implicit-templates -fconstexpr-depth=1 -fno-common
+  )
 
 ADD_SUBDIRECTORY(stove/burner)
