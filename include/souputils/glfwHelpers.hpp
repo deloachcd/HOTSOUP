@@ -33,7 +33,7 @@ namespace souputils {
 		void updateGlViewportOnWindowResize(GLFWwindow* window, int width, int height);
 
 		/* misc helpers */
-		void updateFPSCounter(GLFWwindow* window);
+		void updateFPSCounter(GLFWwindow* window, fpsCounter* frame_counter);
 	}
 }
 
