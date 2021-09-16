@@ -9,6 +9,7 @@
 #include "glDebug.hpp"
 
 #define GL_LOG_FILE "log/gl.log"
+#define LOG_MSG_MAX_LEN 300
 
 namespace souputils {
 	namespace gldebug {
@@ -87,30 +88,26 @@ namespace souputils {
 						log_level_str.c_str(), msg_src_str.c_str(), msg_type_str.c_str());
 			}
 
-			void logWrite(FILE* stream, GLenum log_level, GLenum msg_src, GLenum msg_type,
-						  const char* msg_format, ...) {
-				va_list args;
+			void logWrite(FILE* stream, GLenum log_level, GLenum msg_src,
+						  GLenum msg_type, const char* msg) {
 				time_t now = time(nullptr);
 				char* date = ctime(&now);
+				date[24] = '\0';  // strip trailing newline
 				char flogParams[30];
 				formattedLogParamsToBuffer(flogParams, log_level, msg_src, msg_type);
 
-				va_start(args, msg_format);
-				fprintf(stream, "%s | %s | ", date, flogParams);
-				vfprintf(stream, msg_format, args);
-				fprintf(stream, "\n");
-				va_end(args);
+				if (log_level == GL_DEBUG_SEVERITY_HIGH) {
+					fprintf(stderr, "%s | %s | %s\n", date, flogParams, msg);
+				}
+				fprintf(stream, "%s | %s | %s\n", date, flogParams, msg);
 			}
 
 			void logAppend(GLenum log_level, GLenum msg_src, GLenum msg_type,
-						   const char* format, ...) {
+						   const char* msg) {
 				FILE* fp;
-				va_list args;
 				fp = fopen(GL_LOG_FILE, "a");
 				if (fp) {
-					va_start(args, format);
-					logWrite(fp, log_level, msg_src, msg_type, format, args);
-					va_end(args);
+					logWrite(fp, log_level, msg_src, msg_type, msg);
 					fclose(fp);
 				} else {
 					fprintf(stderr, "ERROR: could not open log file '%s' for writing!\n",
@@ -180,21 +177,30 @@ void souputils::gldebug::logGLParams() {
 								  static_cast<unsigned int>(s));
 }
 
+void souputils::gldebug::glLogAtLevel(GLuint level, const char* format, ...) {
+	va_list args;
+	char buff[200];
+	va_start(args, format);
+	vsprintf(buff, format, args);
+	va_end(args);
+	logAppend(level, GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, buff);
+}
+
 void souputils::gldebug::glLogInfo(const char* format, ...) {
 	va_list args;
+	char buff[LOG_MSG_MAX_LEN];
 	va_start(args, format);
-	logAppend(GL_DEBUG_SEVERITY_NOTIFICATION,
-			  GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER,
-			  format, args);
+	vsprintf(buff, format, args);
+	glLogAtLevel(GL_DEBUG_SEVERITY_NOTIFICATION, buff);
 	va_end(args);
 }
 
 void souputils::gldebug::glLogError(const char* format, ...) {
 	va_list args;
+	char buff[LOG_MSG_MAX_LEN];
 	va_start(args, format);
-	logAppend(GL_DEBUG_SEVERITY_HIGH,
-			  GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_ERROR,
-			  format, args);
+	vsprintf(buff, format, args);
+	glLogAtLevel(GL_DEBUG_SEVERITY_HIGH, format, args);
 	va_end(args);
 }
 

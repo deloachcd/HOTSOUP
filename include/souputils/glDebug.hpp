@@ -13,9 +13,9 @@ namespace souputils {
 											GLenum msg_src, GLenum msg_type);
 
 			void logWrite(FILE* stream, GLenum log_level, GLenum msg_src,
-						  GLenum msg_type, const char* msg_format, ...);
+						  GLenum msg_type, const char* msg);
 			void logAppend(GLenum log_level, GLenum msg_src, GLenum msg_type,
-						   const char* format, ...);
+						   const char* msg);
 		}
 
 		// Programmer facing
@@ -25,6 +25,7 @@ namespace souputils {
 									  const void* log_fname);
 
 		void logGLParams();
+		void glLogAtLevel(GLuint level, const char* format, ...);
 		void glLogInfo(const char* format, ...);
 		void glLogError(const char* format, ...);
 		void glLogReset();
