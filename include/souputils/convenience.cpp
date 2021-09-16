@@ -8,7 +8,7 @@ using namespace souputils::glfwhelpers;
 using namespace souputils::gldebug;
 
 void souputils::convenience::enableSoupDebugContext() {
-	// window hints
+	// glfw hints
 	glfwSetWindowHintProfile(SOUP_GLFW_DEBUG_PROFILE);
 	// debug output
     glEnable(GL_DEBUG_OUTPUT);

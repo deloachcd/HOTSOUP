@@ -20,19 +20,29 @@ ADD_LIBRARY(gl3w STATIC deps/gl3w/src/gl3w.c deps/gl3w/include/GL/gl3w.h)
 # Linking in my own mini-libraries
 ADD_LIBRARY(gldebug STATIC include/glDebug.cpp include/glDebug.hpp)
 ADD_LIBRARY(glhelpers STATIC include/glHelpers.cpp include/glHelpers.hpp)
-ADD_LIBRARY(soupdebug STATIC
+#ADD_LIBRARY(soupdebug STATIC
+#  include/souputils/glDebug.hpp
+#  include/souputils/glDebug.cpp
+#  )
+#ADD_LIBRARY(soupglhelpers STATIC
+#  include/souputils/glHelpers.hpp
+#  include/souputils/glHelpers.cpp
+#  )
+#ADD_LIBRARY(soupglfwhelpers STATIC
+#  include/souputils/glfwHelpers.hpp
+#  include/souputils/glfwHelpers.cpp
+#  )
+#ADD_LIBRARY(soupconvenience STATIC
+#  include/souputils/convenience.hpp
+#  include/souputils/convenience.cpp
+#  )
+ADD_LIBRARY(souputils STATIC
   include/souputils/glDebug.hpp
   include/souputils/glDebug.cpp
-  )
-ADD_LIBRARY(soupglhelpers STATIC
   include/souputils/glHelpers.hpp
   include/souputils/glHelpers.cpp
-  )
-ADD_LIBRARY(soupglfwhelpers STATIC
   include/souputils/glfwHelpers.hpp
   include/souputils/glfwHelpers.cpp
-  )
-ADD_LIBRARY(soupconvenience STATIC
   include/souputils/convenience.hpp
   include/souputils/convenience.cpp
   )
@@ -40,9 +50,10 @@ ADD_LIBRARY(soupconvenience STATIC
 TARGET_LINK_LIBRARIES(glhelpers glfw)
 TARGET_LINK_LIBRARIES(glhelpers glm)
 
-TARGET_LINK_LIBRARIES(soupglfwhelpers glfw)
-TARGET_LINK_LIBRARIES(soupglhelpers glm)
-TARGET_LINK_LIBRARIES(soupglhelpers soupdebug)
+TARGET_LINK_LIBRARIES(souputils gl3w)
+TARGET_LINK_LIBRARIES(souputils glfw)
+TARGET_LINK_LIBRARIES(souputils glm)
+TARGET_LINK_LIBRARIES(souputils OpenGL::GL)
 
 ADD_COMPILE_OPTIONS(
   # Warning options
