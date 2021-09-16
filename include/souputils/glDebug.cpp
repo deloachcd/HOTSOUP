@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <stdarg.h>
 #include <string>
 
 #include <time.h>
 
 #include <GL/gl3w.h>
+
 #include "glDebug.hpp"
 
 #define GL_LOG_FILE "log/gl.log"
@@ -99,11 +101,12 @@ namespace souputils {
 				fprintf(stream, "\n");
 				va_end(args);
 			}
-			void logAppend(const char* fname, GLenum log_level, GLenum msg_src,
-						   GLenum msg_type, const char* format, ...) {
+
+			void logAppend(GLenum log_level, GLenum msg_src, GLenum msg_type,
+						   const char* format, ...) {
 				FILE* fp;
 				va_list args;
-				fp = fopen(fname, "a");
+				fp = fopen(GL_LOG_FILE, "a");
 				if (fp) {
 					va_start(args, format);
 					logWrite(fp, log_level, msg_src, msg_type, format, args);
@@ -111,7 +114,7 @@ namespace souputils {
 					fclose(fp);
 				} else {
 					fprintf(stderr, "ERROR: could not open log file '%s' for writing!\n",
-							fname);
+							GL_LOG_FILE);
 				}
 			}
 		}
@@ -124,11 +127,11 @@ void APIENTRY souputils::gldebug::glDebugCallback(GLenum source, GLenum type,
 												  GLuint id, GLenum severity,
 												  GLsizei length,
 												  const GLchar *msg,
-												  const void* log_fname) {
-	logAppend(static_cast<const char *>(log_fname), severity, source, type, msg);
+												  const void* data) {
+	logAppend(severity, source, type, msg);
 }
 
-void souputils::gldebug::logGLParams(const char* log_fname) {
+void souputils::gldebug::logGLParams() {
 	GLenum params[] = {
 		GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
 		GL_MAX_CUBE_MAP_TEXTURE_SIZE,
@@ -157,51 +160,54 @@ void souputils::gldebug::logGLParams(const char* log_fname) {
 		"GL_MAX_VIEWPORT_DIMS",
 		"GL_STEREO",
 	};
-	souputils::gldebug::glLogInfo(log_fname, "GL Context Params:");
+	souputils::gldebug::glLogInfo("GL Context Params:");
 
 	// integers - only works if the order is 0-10 integer return types
 	for (int i = 0; i < 10; i++) {
 		int v = 0;
 		glGetIntegerv (params[i], &v);
-		souputils::gldebug::glLogInfo(log_fname, "%s %s", names[i], v);
+		souputils::gldebug::glLogInfo("%s %s", names[i], v);
 	}
 
 	// others
 	int v[2];
 	v[0] = v[1] = 0;
 	glGetIntegerv (params[10], v);
-	souputils::gldebug::glLogInfo(log_fname, "%s %d %d", names[10], v[0], v[1]);
+	souputils::gldebug::glLogInfo("%s %d %d", names[10], v[0], v[1]);
 	unsigned char s = 0;
 	glGetBooleanv (params[11], &s);
-	souputils::gldebug::glLogInfo(log_fname, "%s %u", names[10],
-								static_cast<unsigned int>(s));
+	souputils::gldebug::glLogInfo("%s %u", names[10],
+								  static_cast<unsigned int>(s));
 }
 
-void souputils::gldebug::glLogInfo(const char* fname, const char* format, ...) {
+void souputils::gldebug::glLogInfo(const char* format, ...) {
 	va_list args;
 	va_start(args, format);
-	logAppend(fname, GL_DEBUG_SEVERITY_NOTIFICATION, GL_DEBUG_SOURCE_APPLICATION,
-			  GL_DEBUG_TYPE_MARKER, format, args);
+	logAppend(GL_DEBUG_SEVERITY_NOTIFICATION,
+			  GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER,
+			  format, args);
 	va_end(args);
 }
 
-void souputils::gldebug::glLogError(const char* fname, const char* format, ...) {
+void souputils::gldebug::glLogError(const char* format, ...) {
 	va_list args;
 	va_start(args, format);
-	logAppend(fname, GL_DEBUG_SEVERITY_HIGH, GL_DEBUG_SOURCE_APPLICATION,
-			  GL_DEBUG_TYPE_ERROR, format, args);
+	logAppend(GL_DEBUG_SEVERITY_HIGH,
+			  GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_ERROR,
+			  format, args);
 	va_end(args);
 }
 
-void souputils::gldebug::glLogReset(const char* fname) {
+void souputils::gldebug::glLogReset() {
 	FILE* fp;
-	fp = fopen(fname, "w");
+	fp = fopen(GL_LOG_FILE, "w");
 	if (fp) {
-		logWrite(fp, GL_DEBUG_SEVERITY_NOTIFICATION, GL_DEBUG_SOURCE_APPLICATION,
+		logWrite(fp,
+				 GL_DEBUG_SEVERITY_NOTIFICATION, GL_DEBUG_SOURCE_APPLICATION,
 				 GL_DEBUG_TYPE_MARKER, "OpenGL log file initialized");
 		fclose(fp);
 	} else {
 		fprintf(stderr, "ERROR: could not open log file '%s' for writing!\n",
-				fname);
+				GL_LOG_FILE);
 	}
 }

@@ -3,8 +3,8 @@
 
 #include <GLFW/glfw3.h>
 
-#ifndef GL_USER_HELPERS_H
-#define GL_USER_HELPERS_H
+#ifndef GLFW_USER_HELPERS_H
+#define GLFW_USER_HELPERS_H
 
 namespace souputils {
 	namespace glfwhelpers {
@@ -37,4 +37,4 @@ namespace souputils {
 	}
 }
 
-#endif // GL_USER_HELPERS_H
+#endif // GLFW_USER_HELPERS_H

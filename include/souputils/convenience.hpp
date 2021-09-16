@@ -1,5 +1,5 @@
 namespace souputils {
 	namespace convenience {
-		void enableSoupDebugContext(const char* logfile);
+		void enableSoupDebugContext();
 	}
 }

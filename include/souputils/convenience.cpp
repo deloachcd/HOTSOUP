@@ -7,17 +7,17 @@
 using namespace souputils::glfwhelpers;
 using namespace souputils::gldebug;
 
-void souputils::convenience::enableSoupDebugContext(const char* logfile) {
+void souputils::convenience::enableSoupDebugContext() {
 	// window hints
 	glfwSetWindowHintProfile(SOUP_GLFW_DEBUG_PROFILE);
 	// debug output
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	// debug callbacks
-    glDebugMessageCallback(glDebugCallback, logfile);
+    glDebugMessageCallback(glDebugCallback, nullptr);
     glfwSetErrorCallback(glfwErrorCallback);
 	// initialize logfile
-	glLogReset(logfile);
-	glLogInfo(logfile, "Renderer: %s", glGetString(GL_RENDERER));
-	glLogInfo(logfile, "OpenGL version supported: %s", glGetString(GL_VERSION));
+	glLogReset();
+	glLogInfo("Renderer: %s", glGetString(GL_RENDERER));
+	glLogInfo("OpenGL version supported: %s", glGetString(GL_VERSION));
 }
