@@ -17,6 +17,9 @@ ADD_SUBDIRECTORY(deps/glm)
 INCLUDE_DIRECTORIES(deps/gl3w/include)
 ADD_LIBRARY(gl3w STATIC deps/gl3w/src/gl3w.c deps/gl3w/include/GL/gl3w.h)
 
+ADD_LIBRARY(stb_image STATIC deps/stb/stb_image.h include/stb/stb_image.c)
+SET_TARGET_PROPERTIES(stb_image PROPERTIES LINKER_LANGUAGE C)
+
 # Linking in my own mini-libraries
 ADD_LIBRARY(gldebug STATIC include/glDebug.cpp include/glDebug.hpp)
 ADD_LIBRARY(glhelpers STATIC include/glHelpers.cpp include/glHelpers.hpp)
