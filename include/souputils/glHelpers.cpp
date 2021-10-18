@@ -69,6 +69,46 @@ souputils::glhelpers::compileShaderSrc(const shaderSrc* shader_src) {
 	return compileShader(shader_src->type, shader_src->source);
 }
 
+GLuint
+souputils::glhelpers::compileSimpleShaderProgram(const char* vertex_shader_fname,
+												 const char* fragment_shader_fname) {
+	/* I can generalize this logic later if I need to link more
+	   than a single vertex/fragment shader
+	*/
+    std::unique_ptr<shaderSrc> vertex_src, fragment_src;
+    vertex_src = loadShaderFile(
+        GL_VERTEX_SHADER, vertex_shader_fname
+    );
+    fragment_src = loadShaderFile(
+        GL_FRAGMENT_SHADER, fragment_shader_fname
+    );
+    GLuint vs = compileShaderSrc(vertex_src.get());
+    GLuint fs = compileShaderSrc(fragment_src.get());
+
+    GLuint new_shader_prog = glCreateProgram();
+    glAttachShader(new_shader_prog, vs);
+    glAttachShader(new_shader_prog, fs);
+    glLinkProgramSafe(new_shader_prog);
+
+	return new_shader_prog;
+}
+
+void souputils::glhelpers::reloadShaderProgramFromFiles(GLuint* program,
+														const char* vertex_shader_fname,
+														const char* fragment_shader_fname) {
+    //std::unique_ptr<shaderSrc> vertex_src, fragment_src;
+	GLuint old_program;
+	GLuint new_program = compileSimpleShaderProgram(
+		vertex_shader_fname,
+		fragment_shader_fname
+		);
+	if (new_program) {
+		old_program = *program;
+		*program = new_program;
+		glDeleteProgram(old_program);
+	}
+}
+
 void souputils::glhelpers::glLinkProgramSafe(GLuint program) {
 	int result;
 	glLinkProgram(program);
@@ -139,4 +179,35 @@ souputils::glhelpers::flatten(glm::vec3* arr_vectors, size_t size_arr) {
 std::unique_ptr<float[]>
 souputils::glhelpers::flatten(glm::vec4* arr_vectors, size_t size_arr) {
 	return heap_flatten<glm::vec4, 4>(arr_vectors, size_arr);
+}
+
+template <class T>
+inline GLuint vboFromFlattenedVectorArray(T* vector_arr, size_t size_arr) {
+	GLsizeiptr size_arr_cast = static_cast<GLsizeiptr>(size_arr);
+
+	GLint current_array_buffer;
+	glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &current_array_buffer);
+
+	std::unique_ptr<float[]> arr_flatten = flatten(vector_arr, size_arr);
+
+	GLuint new_vbo;
+	glGenBuffers(1, &new_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, new_vbo);
+	glBufferData(GL_ARRAY_BUFFER, size_arr_cast, arr_flatten.get(), GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, static_cast<GLuint>(current_array_buffer));
+	return new_vbo;
+}
+
+GLuint souputils::glhelpers::vboFromFlattenedVectorArray(
+	glm::vec2* vector_arr, size_t size_arr) {
+	return vboFromFlattenedVectorArray<glm::vec2>(vector_arr, size_arr);
+}
+GLuint souputils::glhelpers::vboFromFlattenedVectorArray(
+	glm::vec3* vector_arr, size_t size_arr) {
+	return vboFromFlattenedVectorArray<glm::vec3>(vector_arr, size_arr);
+}
+GLuint souputils::glhelpers::vboFromFlattenedVectorArray(
+	glm::vec4* vector_arr, size_t size_arr) {
+	return vboFromFlattenedVectorArray<glm::vec4>(vector_arr, size_arr);
 }
